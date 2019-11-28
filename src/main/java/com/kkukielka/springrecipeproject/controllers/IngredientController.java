@@ -1,6 +1,8 @@
 package com.kkukielka.springrecipeproject.controllers;
 
 import com.kkukielka.springrecipeproject.commands.IngredientCommand;
+import com.kkukielka.springrecipeproject.commands.RecipeCommand;
+import com.kkukielka.springrecipeproject.commands.UnitOfMeasureCommand;
 import com.kkukielka.springrecipeproject.services.IngredientService;
 import com.kkukielka.springrecipeproject.services.RecipeService;
 import com.kkukielka.springrecipeproject.services.UnitOfMeasureService;
@@ -45,6 +47,24 @@ public class IngredientController {
         model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(Long.valueOf(recipeId), Long.valueOf(ingredientId)));
 
         return "recipe/ingredient/show";
+    }
+
+    @GetMapping("/recipe/{recipeId}/ingredient/new")
+    public String newIngredient(@PathVariable String recipeId, Model model) {
+
+        log.debug("I'm in newIngredient");
+
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+
+        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
     }
 
     @GetMapping("recipe/{recipeId}/ingredient/{id}/update")
