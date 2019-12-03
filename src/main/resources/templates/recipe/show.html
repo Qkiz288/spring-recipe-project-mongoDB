@@ -35,13 +35,17 @@
 
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col">
                                 <h5>Categories:</h5>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col">
                                 <ul th:each="category : ${recipe.categories}">
                                     <li th:text="${category.description}"></li>
                                 </ul>
+                            </div>
+                            <div class="col">
+                                <img th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"
+                                width="150" height="150">
                             </div>
                         </div>
                         <div class="row">
