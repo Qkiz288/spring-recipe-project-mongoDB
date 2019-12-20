@@ -2,6 +2,7 @@ package com.kkukielka.springrecipeproject.controllers;
 
 import com.kkukielka.springrecipeproject.commands.RecipeCommand;
 import com.kkukielka.springrecipeproject.domain.Recipe;
+import com.kkukielka.springrecipeproject.exceptions.NotFoundException;
 import com.kkukielka.springrecipeproject.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,5 +73,15 @@ public class RecipeControllerTest {
                 .andExpect(view().name("redirect:/"));
 
         verify(recipeService, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    public void testGetRecipeNotFund() throws Exception {
+        // given
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        // when - then
+        mockMvc.perform(get("recipe/3/show"))
+                .andExpect(status().isNotFound());
     }
 }

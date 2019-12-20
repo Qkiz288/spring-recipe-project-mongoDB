@@ -3,6 +3,7 @@ package com.kkukielka.springrecipeproject.services;
 import com.kkukielka.springrecipeproject.converters.RecipeCommandToRecipe;
 import com.kkukielka.springrecipeproject.converters.RecipeToRecipeCommand;
 import com.kkukielka.springrecipeproject.domain.Recipe;
+import com.kkukielka.springrecipeproject.exceptions.NotFoundException;
 import com.kkukielka.springrecipeproject.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,6 +55,19 @@ public class RecipeServiceImplTest {
 
     }
 
+    @Test(expected = NotFoundException.class)
+    public void getRecipeByIdNotFoundTest() {
+        // given
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        // when
+        recipeService.findById(1L);
+
+        // then go boom (throw exception)
+    }
+
     @Test
     public void getRecipes() {
 
@@ -76,4 +90,6 @@ public class RecipeServiceImplTest {
 
         verify(recipeRepository, times(1)).deleteById(anyLong());
     }
+
+
 }
