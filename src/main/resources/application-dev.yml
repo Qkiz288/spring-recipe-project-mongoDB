@@ -1,11 +1,21 @@
 spring:
   datasource:
+    initialization-mode: always
     url: jdbc:mysql://localhost:3306/kkukielka_dev
     username: kkukielka_dev_user
     password: kkukielka
+    platform: mysql
   jpa:
     hibernate:
       ddl-auto: validate
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     database: mysql
-    show-sql: true
+    show-sql: false
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: create
+              create-target: kkukielka_database_create.sql

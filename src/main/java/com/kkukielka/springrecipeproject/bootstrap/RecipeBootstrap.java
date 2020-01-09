@@ -6,6 +6,7 @@ import com.kkukielka.springrecipeproject.repositories.RecipeRepository;
 import com.kkukielka.springrecipeproject.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import java.util.*;
 
 @Slf4j
 @Component
+@Profile("default")
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private final CategoryRepository categoryRepository;
@@ -35,7 +37,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
     private List<Recipe> getRecipes() {
 
-        log.debug("Loading sample recipe data...");
+        log.debug("Loading sample recipe data for default profile...");
 
         List<Recipe> recipes = new ArrayList<>(2);
 
