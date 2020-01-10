@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class UnitOfMeasureCommandToUnitOfMeasureTest {
 
     public static final String DESCRIPTION = "description";
-    public static final Long LONG_VALUE = new Long(1L);
+    public static final String ID = "1";
 
     UnitOfMeasureCommandToUnitOfMeasure converter;
 
@@ -34,7 +34,7 @@ public class UnitOfMeasureCommandToUnitOfMeasureTest {
     public void convert() throws Exception {
         //given
         UnitOfMeasureCommand command = new UnitOfMeasureCommand();
-        command.setId(LONG_VALUE);
+        command.setId(ID);
         command.setDescription(DESCRIPTION);
 
         //when
@@ -42,7 +42,7 @@ public class UnitOfMeasureCommandToUnitOfMeasureTest {
 
         //then
         assertNotNull(uom);
-        assertEquals(LONG_VALUE, uom.getId());
+        assertEquals(ID, uom.getId());
         assertEquals(DESCRIPTION, uom.getDescription());
 
     }

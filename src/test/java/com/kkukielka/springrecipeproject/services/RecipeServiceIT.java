@@ -5,6 +5,7 @@ import com.kkukielka.springrecipeproject.converters.RecipeCommandToRecipe;
 import com.kkukielka.springrecipeproject.converters.RecipeToRecipeCommand;
 import com.kkukielka.springrecipeproject.domain.Recipe;
 import com.kkukielka.springrecipeproject.repositories.RecipeRepository;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class RecipeServiceIT {
     @Autowired
     RecipeToRecipeCommand recipeToRecipeCommand;
 
+    @Ignore
     @Transactional
     @Test
     public void testSaveOfDescription() throws Exception {

@@ -20,7 +20,7 @@ public class CategoryTest {
 
     @Test
     public void getId() {
-        Long expectedId = 4L;
+        String expectedId = "4";
 
         category.setId(expectedId);
 

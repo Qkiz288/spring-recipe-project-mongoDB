@@ -8,7 +8,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"recipes"})
 public class Category {
 
-    private Long id;
+    private String id;
     private String description;
     private Set<Recipe> recipes;
 

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(exclude = {"recipe"})
 public class Ingredient {
 
-    private Long id;
+    private String id;
     private String description;
     private BigDecimal amount;
     private Recipe recipe;

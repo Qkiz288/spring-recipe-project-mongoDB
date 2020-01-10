@@ -35,7 +35,7 @@ public class IngredientController {
         log.debug(String.format("Get ingredients for recipe %s", recipeId));
 
         // use command object to avoid lazy load errors in Thymeleaf
-        model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(recipeId)));
+        model.addAttribute("recipe", recipeService.findCommandById(recipeId));
 
         return "recipe/ingredient/list";
     }
@@ -44,7 +44,7 @@ public class IngredientController {
     public String showIngredient(@PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
         log.debug(String.format("Get ingredient id = %s detail for recipeId = %s", ingredientId, recipeId));
 
-        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(Long.valueOf(recipeId), Long.valueOf(ingredientId)));
+        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, ingredientId));
 
         return "recipe/ingredient/show";
     }
@@ -54,10 +54,10 @@ public class IngredientController {
 
         log.debug("I'm in newIngredient");
 
-        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
 
         IngredientCommand ingredientCommand = new IngredientCommand();
-        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        ingredientCommand.setRecipeId(recipeId);
         model.addAttribute("ingredient", ingredientCommand);
 
         ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
@@ -69,7 +69,7 @@ public class IngredientController {
 
     @GetMapping("recipe/{recipeId}/ingredient/{id}/update")
     public String updateIngredient(@PathVariable String recipeId, @PathVariable String id, Model model) {
-        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(Long.valueOf(recipeId), Long.valueOf(id)));
+        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, id));
 
         model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
 
@@ -89,7 +89,7 @@ public class IngredientController {
     @GetMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")
     public String deleteIngredient(@PathVariable String recipeId, @PathVariable String ingredientId) {
         log.debug(String.format("Removing ingredient with id = %s for recipe id = %s", ingredientId, recipeId));
-        ingredientService.deleteById(Long.valueOf(recipeId), Long.valueOf(ingredientId));
+        ingredientService.deleteById(recipeId, ingredientId);
 
         return "redirect:/recipe/" + recipeId + "/ingredients";
     }
