@@ -1,55 +1,57 @@
 package com.kkukielka.springrecipeproject.repositories;
 
-import com.kkukielka.springrecipeproject.commands.UnitOfMeasureCommand;
-import com.kkukielka.springrecipeproject.converters.UnitOfMeasureToUnitOfMeasureCommand;
+import com.kkukielka.springrecipeproject.bootstrap.RecipeBootstrap;
 import com.kkukielka.springrecipeproject.domain.UnitOfMeasure;
-import com.kkukielka.springrecipeproject.services.UnitOfMeasureService;
-import com.kkukielka.springrecipeproject.services.UnitOfMeasureServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
+@RunWith(SpringRunner.class)
+@DataMongoTest
 public class UnitOfMeasureRepositoryTestIT {
 
-    UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand = new UnitOfMeasureToUnitOfMeasureCommand();
-    UnitOfMeasureService service;
-
-    @Mock
+    @Autowired
     UnitOfMeasureRepository unitOfMeasureRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+
+    @Autowired
+    RecipeRepository recipeRepository;
+
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
 
-        service = new UnitOfMeasureServiceImpl(unitOfMeasureRepository, unitOfMeasureToUnitOfMeasureCommand);
+        recipeRepository.deleteAll();
+        unitOfMeasureRepository.deleteAll();
+        categoryRepository.deleteAll();
+
+        RecipeBootstrap recipeBootstrap = new RecipeBootstrap(categoryRepository, recipeRepository, unitOfMeasureRepository);
+
+        recipeBootstrap.onApplicationEvent(null);
     }
 
     @Test
-    public void listAllUoms() {
-        //given
-        Set<UnitOfMeasure> unitOfMeasures = new HashSet<>();
-        UnitOfMeasure uom1 = new UnitOfMeasure();
-        uom1.setId("1");
-        unitOfMeasures.add(uom1);
+    public void findByDescription() {
 
-        UnitOfMeasure uom2 = new UnitOfMeasure();
-        uom2.setId("2");
-        unitOfMeasures.add(uom2);
+        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
 
-        when(unitOfMeasureRepository.findAll()).thenReturn(unitOfMeasures);
+        assertEquals("Teaspoon", uomOptional.get().getDescription());
+    }
 
-        //when
-        Set<UnitOfMeasureCommand> commands = service.listAllUoms();
+    @Test
+    public void findByDescriptionCup() {
 
-        //then
-        assertEquals(2, commands.size());
-        verify(unitOfMeasureRepository, times(1)).findAll();
+        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Cup");
+
+        assertEquals("Cup", uomOptional.get().getDescription());
     }
 }
