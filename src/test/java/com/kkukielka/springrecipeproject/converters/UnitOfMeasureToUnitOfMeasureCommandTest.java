@@ -18,22 +18,22 @@ public class UnitOfMeasureToUnitOfMeasureCommandTest {
     UnitOfMeasureToUnitOfMeasureCommand converter;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         converter = new UnitOfMeasureToUnitOfMeasureCommand();
     }
 
     @Test
-    public void testNullObjectConvert() throws Exception {
+    public void testNullObjectConvert() {
         assertNull(converter.convert(null));
     }
 
     @Test
-    public void testEmptyObj() throws Exception {
+    public void testEmptyObj() {
         assertNotNull(converter.convert(new UnitOfMeasure()));
     }
 
     @Test
-    public void convert() throws Exception {
+    public void convert() {
         //given
         UnitOfMeasure uom = new UnitOfMeasure();
         uom.setId(ID);

@@ -10,7 +10,6 @@ import com.kkukielka.springrecipeproject.domain.Recipe;
 import com.kkukielka.springrecipeproject.repositories.RecipeRepository;
 import com.kkukielka.springrecipeproject.repositories.UnitOfMeasureRepository;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -18,7 +17,6 @@ import org.mockito.MockitoAnnotations;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class IngredientServiceImplTest {
@@ -41,19 +39,19 @@ public class IngredientServiceImplTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
 
         ingredientService = new IngredientServiceImpl(recipeRepository, ingredientToIngredientCommand, unitOfMeasureRepository, ingredientCommandToIngredient);
     }
 
     @Test
-    public void findByRecipeIdAndId() throws Exception {
+    public void findByRecipeIdAndId() {
     }
 
-    @Ignore
+
     @Test
-    public void findByRecipeIdAndIngredientIdHappyPath() throws Exception {
+    public void findByRecipeIdAndIngredientIdHappyPath() {
         //given
         Recipe recipe = new Recipe();
         recipe.setId("1");
@@ -78,12 +76,11 @@ public class IngredientServiceImplTest {
         IngredientCommand ingredientCommand = ingredientService.findByRecipeIdAndId("1", "3");
 
         //then
-        assertEquals(Long.valueOf(3L), ingredientCommand.getId());
-        assertEquals(Long.valueOf(1L), ingredientCommand.getRecipeId());
+        assertEquals("3", ingredientCommand.getId());
         verify(recipeRepository, times(1)).findById(anyString());
     }
 
-    @Ignore
+
     @Test
     public void testSaveRecipeCommand() {
         //given
@@ -104,7 +101,7 @@ public class IngredientServiceImplTest {
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
 
         //then
-        assertEquals(Long.valueOf(3L), savedCommand.getId());
+        assertEquals("3", savedCommand.getId());
         verify(recipeRepository, times(1)).findById(anyString());
         verify(recipeRepository, times(1)).save(any(Recipe.class));
 

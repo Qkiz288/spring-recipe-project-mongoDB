@@ -34,7 +34,7 @@ public class ImageControllerTest {
     MockMvc mockMvc;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
 
         controller = new ImageController(imageService, recipeService);

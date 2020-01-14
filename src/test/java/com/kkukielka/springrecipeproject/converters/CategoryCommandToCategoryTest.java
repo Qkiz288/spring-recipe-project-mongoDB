@@ -14,22 +14,22 @@ public class CategoryCommandToCategoryTest {
     CategoryCommandToCategory conveter;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         conveter = new CategoryCommandToCategory();
     }
 
     @Test
-    public void testNullObject() throws Exception {
+    public void testNullObject() {
         assertNull(conveter.convert(null));
     }
 
     @Test
-    public void testEmptyObject() throws Exception {
+    public void testEmptyObject() {
         assertNotNull(conveter.convert(new CategoryCommand()));
     }
 
     @Test
-    public void convert() throws Exception {
+    public void convert() {
         //given
         CategoryCommand categoryCommand = new CategoryCommand();
         categoryCommand.setId(ID_VALUE);

@@ -26,7 +26,7 @@ public class RecipeToRecipeCommandTest {
     RecipeToRecipeCommand converter;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         converter = new RecipeToRecipeCommand(
                 new CategoryToCategoryCommand(),
                 new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand()),
@@ -34,17 +34,17 @@ public class RecipeToRecipeCommandTest {
     }
 
     @Test
-    public void testNullObject() throws Exception {
+    public void testNullObject() {
         assertNull(converter.convert(null));
     }
 
     @Test
-    public void testEmptyObject() throws Exception {
+    public void testEmptyObject() {
         assertNotNull(converter.convert(new Recipe()));
     }
 
     @Test
-    public void convert() throws Exception {
+    public void convert() {
         //given
         Recipe recipe = new Recipe();
         recipe.setId(RECIPE_ID);

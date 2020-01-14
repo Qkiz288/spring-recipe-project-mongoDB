@@ -41,6 +41,11 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
+task cleanBuildDir(type: Delete) {
+    delete "${projectDir}/out"
+}
+tasks.clean.dependsOn(cleanBuildDir)
+
 //export test coverage
 jacocoTestReport {
     reports {

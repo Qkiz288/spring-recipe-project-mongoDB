@@ -17,22 +17,22 @@ public class CategoryToCategoryCommandTest {
     CategoryToCategoryCommand convter;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         convter = new CategoryToCategoryCommand();
     }
 
     @Test
-    public void testNullObject() throws Exception {
+    public void testNullObject() {
         assertNull(convter.convert(null));
     }
 
     @Test
-    public void testEmptyObject() throws Exception {
+    public void testEmptyObject() {
         assertNotNull(convter.convert(new Category()));
     }
 
     @Test
-    public void convert() throws Exception {
+    public void convert() {
         //given
         Category category = new Category();
         category.setId(ID_VALUE);

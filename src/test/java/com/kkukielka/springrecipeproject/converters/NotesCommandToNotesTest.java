@@ -14,23 +14,23 @@ public class NotesCommandToNotesTest {
     NotesCommandToNotes converter;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         converter = new NotesCommandToNotes();
 
     }
 
     @Test
-    public void testNullParameter() throws Exception {
+    public void testNullParameter() {
         assertNull(converter.convert(null));
     }
 
     @Test
-    public void testEmptyObject() throws Exception {
+    public void testEmptyObject() {
         assertNotNull(converter.convert(new NotesCommand()));
     }
 
     @Test
-    public void convert() throws Exception {
+    public void convert() {
         //given
         NotesCommand notesCommand = new NotesCommand();
         notesCommand.setId(ID_VALUE);
