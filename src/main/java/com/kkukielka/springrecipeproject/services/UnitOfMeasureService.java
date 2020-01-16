@@ -1,9 +1,8 @@
 package com.kkukielka.springrecipeproject.services;
 
 import com.kkukielka.springrecipeproject.commands.UnitOfMeasureCommand;
-
-import java.util.Set;
+import reactor.core.publisher.Flux;
 
 public interface UnitOfMeasureService {
-    Set<UnitOfMeasureCommand> listAllUoms();
+    Flux<UnitOfMeasureCommand> listAllUoms();
 }
