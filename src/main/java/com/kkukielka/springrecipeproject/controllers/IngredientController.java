@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Controller
@@ -35,7 +36,7 @@ public class IngredientController {
         log.debug(String.format("Get ingredients for recipe %s", recipeId));
 
         // use command object to avoid lazy load errors in Thymeleaf
-        model.addAttribute("recipe", recipeService.findCommandById(recipeId));
+        model.addAttribute("recipe", recipeService.findCommandById(recipeId).block());
 
         return "recipe/ingredient/list";
     }
@@ -54,7 +55,7 @@ public class IngredientController {
 
         log.debug("I'm in newIngredient");
 
-        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
+        Mono<RecipeCommand> recipeCommand = recipeService.findCommandById(recipeId);
 
         IngredientCommand ingredientCommand = new IngredientCommand();
         ingredientCommand.setRecipeId(recipeId);
