@@ -3,7 +3,6 @@ package com.kkukielka.springrecipeproject.controllers;
 import com.kkukielka.springrecipeproject.commands.RecipeCommand;
 import com.kkukielka.springrecipeproject.services.ImageService;
 import com.kkukielka.springrecipeproject.services.RecipeService;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,21 +41,22 @@ public class ImageController {
         return "redirect:/recipe/" + id + "/show";
     }
 
-    @GetMapping("recipe/{id}/recipeimage")
-    public void renderImageFromDB(@PathVariable String id, HttpServletResponse httpServletResponse) throws IOException {
-        RecipeCommand recipeCommand = recipeService.findCommandById(id).block();
-
-        if (recipeCommand.getImage() != null) {
-            byte[] byteArray = new byte[recipeCommand.getImage().length];
-            int i = 0;
-            for (Byte wrappedByte : recipeCommand.getImage()) {
-                byteArray[i++] = wrappedByte;
-            }
-            httpServletResponse.setContentType("image/jpeg");
-            InputStream is = new ByteArrayInputStream(byteArray);
-            IOUtils.copy(is, httpServletResponse.getOutputStream());
-        }
-
-    }
+    // temporarily commented out
+//    @GetMapping("recipe/{id}/recipeimage")
+//    public void renderImageFromDB(@PathVariable String id, HttpServletResponse httpServletResponse) throws IOException {
+//        RecipeCommand recipeCommand = recipeService.findCommandById(id).block();
+//
+//        if (recipeCommand.getImage() != null) {
+//            byte[] byteArray = new byte[recipeCommand.getImage().length];
+//            int i = 0;
+//            for (Byte wrappedByte : recipeCommand.getImage()) {
+//                byteArray[i++] = wrappedByte;
+//            }
+//            httpServletResponse.setContentType("image/jpeg");
+//            InputStream is = new ByteArrayInputStream(byteArray);
+//            IOUtils.copy(is, httpServletResponse.getOutputStream());
+//        }
+//
+//    }
 
 }
