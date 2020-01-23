@@ -1,57 +1,53 @@
 package com.kkukielka.springrecipeproject.services;
 
 import com.kkukielka.springrecipeproject.domain.Recipe;
-import com.kkukielka.springrecipeproject.repositories.RecipeRepository;
+import com.kkukielka.springrecipeproject.repositories.reactive.RecipeReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Slf4j
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    private RecipeRepository recipeRepository;
+    private RecipeReactiveRepository recipeReactiveRepository;
 
-    public ImageServiceImpl(RecipeRepository recipeRepository) {
-
-        this.recipeRepository = recipeRepository;
+    public ImageServiceImpl(RecipeReactiveRepository recipeReactiveRepository) {
+        this.recipeReactiveRepository = recipeReactiveRepository;
     }
 
     @Override
-    @Transactional
-    public void saveImageFile(String recipeId, MultipartFile file) {
+    public Mono<Void> saveImageFile(String recipeId, MultipartFile file) {
         log.debug("Received a file");
 
-        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+        Mono<Recipe> recipeMono = recipeReactiveRepository.findById(recipeId)
+                .map(recipe -> {
+                    Byte[] byteObjects = new Byte[0];
+                    try {
+                        byteObjects = new Byte[file.getBytes().length];
 
-        if (!recipeOptional.isPresent()) {
-            throw new RuntimeException(String.format("Recipe with ID = %s not found", recipeId));
-        }
+                        int i = 0;
 
-        Recipe recipe = recipeOptional.get();
+                        for (byte b : file.getBytes()) {
+                            byteObjects[i++] = b;
+                        }
 
-        try {
-            Byte[] byteFile = new Byte[file.getBytes().length];
+                        recipe.setImage(byteObjects);
 
-            int i = 0;
+                        return recipe;
 
-            for (byte b : file.getBytes()) {
-                byteFile[i++] = b;
-            }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new RuntimeException(e);
+                    }
+                });
 
-            recipe.setImage(byteFile);
+        recipeReactiveRepository.save(recipeMono.block()).block();
 
-            recipeRepository.save(recipe);
-        } catch (IOException e) {
-            log.error("Error occured");
-            e.printStackTrace();
-        }
-
-
+        return Mono.empty();
 
     }
 }

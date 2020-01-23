@@ -2,18 +2,18 @@ package com.kkukielka.springrecipeproject.services;
 
 import com.kkukielka.springrecipeproject.commands.RecipeCommand;
 import com.kkukielka.springrecipeproject.domain.Recipe;
-
-import java.util.Set;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface RecipeService {
 
-    Set<Recipe> getRecipes();
+    Flux<Recipe> getRecipes();
 
-    Recipe findById(String id);
+    Mono<Recipe> findById(String id);
 
-    RecipeCommand findCommandById(String id);
+    Mono<RecipeCommand> findCommandById(String id);
 
-    RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand);
+    Mono<RecipeCommand> saveRecipeCommand(RecipeCommand recipeCommand);
 
     void deleteById(String id);
 
