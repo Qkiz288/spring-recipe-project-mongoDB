@@ -1,10 +1,8 @@
 package com.kkukielka.springrecipeproject.controllers;
 
 import com.kkukielka.springrecipeproject.commands.RecipeCommand;
-import com.kkukielka.springrecipeproject.exceptions.NotFoundException;
 import com.kkukielka.springrecipeproject.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,7 +24,7 @@ public class RecipeController {
     @RequestMapping({"/recipe/{id}/show"})
     public String showById(@PathVariable String id, Model model) {
 
-        model.addAttribute("recipe", recipeService.findById(id).block());
+        model.addAttribute("recipe", recipeService.findById(id));
 
         return "recipe/show";
 

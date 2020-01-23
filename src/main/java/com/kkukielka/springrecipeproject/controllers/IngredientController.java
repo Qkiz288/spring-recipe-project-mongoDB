@@ -36,7 +36,7 @@ public class IngredientController {
         log.debug(String.format("Get ingredients for recipe %s", recipeId));
 
         // use command object to avoid lazy load errors in Thymeleaf
-        model.addAttribute("recipe", recipeService.findCommandById(recipeId).block());
+        model.addAttribute("recipe", recipeService.findCommandById(recipeId));
 
         return "recipe/ingredient/list";
     }
@@ -45,7 +45,7 @@ public class IngredientController {
     public String showIngredient(@PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
         log.debug(String.format("Get ingredient id = %s detail for recipeId = %s", ingredientId, recipeId));
 
-        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, ingredientId).block());
+        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, ingredientId));
 
         return "recipe/ingredient/show";
     }
@@ -55,7 +55,7 @@ public class IngredientController {
 
         log.debug("I'm in newIngredient");
 
-        Mono<RecipeCommand> recipeCommand = recipeService.findCommandById(recipeId);
+        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId).block();
 
         IngredientCommand ingredientCommand = new IngredientCommand();
         ingredientCommand.setRecipeId(recipeId);
@@ -63,7 +63,7 @@ public class IngredientController {
 
         ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
 
-        model.addAttribute("uomList", unitOfMeasureService.listAllUoms().collectList().block());
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
 
         return "recipe/ingredient/ingredientform";
     }
@@ -72,7 +72,7 @@ public class IngredientController {
     public String updateIngredient(@PathVariable String recipeId, @PathVariable String id, Model model) {
         model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(recipeId, id).block());
 
-        model.addAttribute("uomList", unitOfMeasureService.listAllUoms().collectList().block());
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
 
         return "recipe/ingredient/ingredientform";
     }
